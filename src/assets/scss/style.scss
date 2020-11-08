@@ -1,0 +1,135 @@
+$primary:rgba(29,161,242,1.00);
+$secondary:#fafafa;
+.brand_items{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.brand_item{
+    position: relative;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    border-radius: 3rem;
+    margin-top: .5rem;
+    
+    padding: .3rem 1rem;
+    transition: all .2s ease-out;
+    color: black;
+    cursor: pointer;
+    
+    &:hover{
+        color: $primary;
+        background-color: lighten($primary, 40);
+    }
+   font-weight: 500;
+   &-icon{
+       margin-right: 1rem;
+   }
+}
+.brand{
+    font-size: 1.4rem;
+    font-weight: 800;
+    letter-spacing: .2rem;
+    text-transform: uppercase;
+    color: $primary;
+    margin-top: 1rem;
+   &-image{
+        height: 5rem;
+    }
+}
+.flex{
+    display: flex;
+    align-items: center;;
+}
+.follow{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+   
+    &-image{
+        height: 1.4rem;
+        width: 1.4rem;
+        background-color: $primary;
+        border-radius: 100%;
+        margin-right: .3rem;
+    }
+    &-btn{
+        float: right;
+        color: $primary;
+        border: 1px solid $primary;
+        padding: .2rem .7rem;
+        border-radius: 20px;
+        font-weight: 700;
+        transition: all .2s ease-out;
+        cursor: pointer;
+        &:hover{
+            background-color: lighten($primary, 40);
+        }
+    }
+
+}
+.border{
+    border:1px solid darken($secondary, 10) ;
+}
+.handle{
+    font-weight: 700;
+    font-size: 1.03rem;
+    span{
+        font-weight: 400;
+    }
+}
+.card-footer-item{
+    border: none !important;
+    color: $primary;
+}
+.card-footer-item .icon{
+    margin-left: 3px;
+}
+.news{
+    margin-top: 1rem;
+    background-color: $secondary;
+   border-radius:2rem;
+   border:1px solid darken($secondary, 10);
+   
+   &-top{
+    font-weight: 800;
+    font-size: 1.2rem;
+   }
+   &-bottom{
+       color: $primary;
+       font-weight: 500;
+       border-top:1px solid darken($secondary, 10);
+       padding: 0 1rem;
+   }
+    &-top,&-bottom{
+       
+       
+        padding: .6rem 1rem;
+    }
+    &-section{
+        padding: 1rem;
+        border-top:1px solid darken($secondary, 10);
+        font-weight: 500;
+        text-overflow: ellipsis;
+        
+            
+          
+    }
+    
+}
+.new-tweet{
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    margin-top: 1rem;
+    text-transform: uppercase;
+    font-weight: 700;
+    letter-spacing: .2rem;
+}
+.search-box{
+    margin-top: 1rem;
+}
+@import "~bulma";
+@import "~buefy/src/scss/buefy";
