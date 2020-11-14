@@ -40,36 +40,73 @@
                 show more
             </div>
         </div>
-        <div class="news">
+        <div class="news" v-if="users.length > 0">
             <div class="news-top">
                 Who to follow
             </div>
-            <div class="news-section follow">
+            <div class="news-section follow" v-for="user in users" :key="user.uid" >
             <div class="flex">
-            <div class="follow-image"></div>
-                <span class="follow-text">Rohit Kumar</span>
+            <div class="follow-image" :style="'background-image:url('+ user.photo+')'" ></div>
+                <span class="follow-text">{{user.name}}</span>
             </div>
                 
-                <div class="follow-btn">Follow</div>
+                <div :ref="'follow-'+user._id" class="follow-btn" v-on:click="follow(user._id)">Follow</div>
             </div>
-            <div class="news-section follow">
-            <div class="flex">
-             <div class="follow-image"></div>
-                <span class="follow-text">Krishana Kumar</span>
-            </div>
-               
-                <div class="follow-btn">Follow</div>
-            </div>
-            <div class="news-section follow">
-            <div class="flex"><div class="follow-image"></div>
-                <span class="follow-text">Ryan Kumar</span>
-            </div>
-                
-                <div class="follow-btn">Follow</div>
-            </div>
+            
             <div class="news-bottom">
                 Show more
             </div>
         </div>
     </div>
 </template>
+<script>
+import axios from 'axios'
+import {mapState} from 'vuex'
+//import firebase from 'firebase'
+export default {
+    async created(){
+        
+       
+        
+        
+        
+        
+    },
+    data(){
+        return {
+            users :[]
+        }
+    },
+    watch:{
+        async user(){
+            if(this.user){
+                    
+                    const {data} = await axios.get('/user/notfollowed',{
+                        params:{
+                        user_id:this.user._id
+                        
+                    }
+                    })
+                    
+                    this.users = data.users
+                    console.log(data)
+            }
+        }
+    },
+    computed:{
+        ...mapState(['user'])
+    },
+    methods:{
+        async follow(id){
+                const {data} =await  axios.post('/user/follow',{
+                    uid:this.user.uid,
+                    target_id:id,
+                    
+                })
+                console.log(data)
+                console.log(this.$refs['follow-'+id][0])
+                this.$refs['follow-'+id][0].classList.add('follows')
+        }
+    }
+}
+</script>>

@@ -5,6 +5,10 @@ $secondary:#fafafa;
     flex-direction: column;
     justify-content: center;
 }
+.router-link-exact-active{
+    color: $primary;
+        background-color: lighten($primary, 40);
+}
 .brand_item{
     position: relative;
     display: flex;
@@ -42,6 +46,10 @@ $secondary:#fafafa;
     display: flex;
     align-items: center;;
 }
+.follows{
+    background-color: $primary;
+    color: white !important;
+}
 .follow{
     display: flex;
     justify-content: space-between;
@@ -51,6 +59,14 @@ $secondary:#fafafa;
         height: 1.4rem;
         width: 1.4rem;
         background-color: $primary;
+        border-radius: 100%;
+        margin-right: .3rem;
+    }
+    &-image-large{
+        height: 2.5rem;
+        width: 2.5rem;
+        background-color: $primary;
+        background-size: cover;
         border-radius: 100%;
         margin-right: .3rem;
     }
@@ -79,12 +95,14 @@ $secondary:#fafafa;
         font-weight: 400;
     }
 }
-.card-footer-item{
-    border: none !important;
+.pressed{
     color: $primary;
+   
 }
 .card-footer-item .icon{
     margin-left: 3px;
+    transition: all .2s ease-out;
+    cursor: pointer;
 }
 .news{
     margin-top: 1rem;
@@ -118,6 +136,11 @@ $secondary:#fafafa;
     }
     
 }
+.retweet-label{
+    margin-top: .6rem;
+    margin-left: .5rem;
+    display: inline-block;
+}
 .new-tweet{
     position: absolute;
     left: 50%;
@@ -127,9 +150,74 @@ $secondary:#fafafa;
     text-transform: uppercase;
     font-weight: 700;
     letter-spacing: .2rem;
+    
+}
+.pointer{
+    cursor: pointer;
+    
 }
 .search-box{
     margin-top: 1rem;
 }
+.crossbox{
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+}
+.tweetform{
+   
+    width: 50vh;
+    background-color: white;
+    z-index: 10;
+    padding: 2rem;
+}
+
+.wrap{
+    display: flex;
+   
+    height: 100vh;
+    &-left,&-right{
+        height: 100%;
+        width: 50vw;
+    }
+    &-left{
+        background-image: url('../images/hero.jpeg');
+        background-position: center;
+        background-size: cover;
+    }
+
+    &-right {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+       padding-left: 4rem;
+       
+    }
+}
+.border-p{
+    border: 2px solid $primary !important;
+}
+.head{
+    font-size: 2rem;
+    color: $primary;
+    font-weight: 700;
+}
+.login_btn{
+    margin-top: 3rem;
+}
+.login_btn span{
+   justify-content: space-between;
+
+   display: flex !important;
+   
+   align-items: center;
+   svg{
+       margin-right: 1rem;
+       font-size: 10px;
+   }
+}
+
+
 @import "~bulma";
 @import "~buefy/src/scss/buefy";

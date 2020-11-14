@@ -1,33 +1,46 @@
 <template>
     
-    <div class="card">
+    <div class="card" v-if="show">
+  
+    <b-modal v-model="reply" has-modal-card  :destroy-on-hide="false" aria-role="dialog" aria-modal>
+    <template #default="props">
+
+               <tweetform @close="props.close" :reply="true" :fromtweet="tweet.tweet" :author="tweet.author"></tweetform> 
+            </template>
+
+    </b-modal>
+    
+        <span class="retweet-label" v-if="tweet.retweeted_by">{{tweet.retweeted_by.name}} Retweeted  <b>{{tweet.author.name}}'s Tweet</b></span>
+        <span class="retweet-label" v-if="author">{{tweet.author.name}} Replied to   <b>{{author.name}}'s Tweet</b></span>
         <div class="card-content">
+       
            <div class="columns">
+           
            <div class="column is-1">
-           <div class="follow-image"></div>
+           <div class="follow-image-large" :style="'background-image:url('+ tweet.author.photo+')'"></div>
            </div>
            <div class="column is-11">
            <div class="handle">
-           Rohit Kumar <span>@R0HIT_07</span>
+           {{tweet.author.name}} <span>@{{tweet.author.handle}}</span>
            </div>
-           Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugiat sit ipsam dolores voluptate incidunt veritatis inventore. A quae blanditiis animi illum aspernatur quos ipsam accusantium eligendi! Quidem tempore excepturi possimus!
+           {{tweet.tweet.body}}
            </div>
            </div>
       </div>
       <footer class="card-footer">
-    <div href="#" class="card-footer-item">
-        3<b-icon
+    <div href="#" :class="{'card-footer-item':true,'pressed':tweet.tweet.likes.includes(user._id)}" @click="like(tweet.tweet._id,tweet.author._id)">
+        {{tweet.tweet.likes.length}}<b-icon
                 pack="fas"
                 icon="heart"
                 size="is-small">
             </b-icon>
     </div>
-    <div href="#" class="card-footer-item">5<b-icon
+    <div href="#" :class="{'card-footer-item':true,'pressed':tweet.tweet.retweets.includes(user._id)}" @click="retweet(tweet.tweet._id,tweet.author._id)" >{{tweet.tweet.retweets.length }}<b-icon
                 pack="fas"
                 icon="retweet"
                 size="is-small">
             </b-icon></div>
-    <div href="#" class="card-footer-item">7<b-icon
+    <div href="#" :class="{'card-footer-item':true,'pressed':tweet.tweet.comments.includes(user._id)}" @click="reply = true">{{tweet.tweet.comments.length}}<b-icon
                 pack="fas"
                 icon="comment"
                 size="is-small">
@@ -37,3 +50,82 @@
         </div>
     
 </template>
+<script>
+import axios from 'axios'
+import {mapState} from 'vuex'
+import tweetform from '@/components/tweetform'
+export default {
+    props:['tweet','recent'],
+    data(){
+        return {
+            reply:false,
+            author:false
+        }
+    },
+    components:{
+        tweetform
+    },
+    methods:{
+        async like(id,author_id){
+            const {data} = await axios.post('/tweet/like',{
+                tweet_id:id,
+                user_id:this.user._id,
+                author_id
+            })
+            console.log(data)
+
+            if(data.success){
+                this.tweet.tweet.likes.push(this.user._id)
+
+            }
+        },
+        async retweet(id,author_id){
+            console.log("clicking")
+            const {data} =await axios.post('/tweet/retweet',{
+                user_id:this.user._id,
+                tweet_id:id,
+                author_id
+            })
+            if(data.success){
+                this.tweet.tweet.retweets.push(this.user._id)
+                this.$buefy.toast.open({
+                    message: 'Retweeted',
+                    type: 'is-success'
+                })
+            }
+        }
+    },
+   
+    computed:{
+        ...mapState(['user']),
+        show(){
+            if(this.recent){
+                return true
+            }
+            if(this.tweet.retweeted_by){
+                if(this.tweet.retweeted_by._id !== this.user._id){
+                    return true
+                }
+                else {
+                    return  false
+                }
+            }
+            else {
+                return true
+            }
+        },
+       
+    },
+    async created(){
+        if(this.tweet.reply_to){
+                const {data} = await axios.get('/user',{
+                    params:{
+                        uid:this.user.uid
+                    }
+                })
+                console.log("real auhtor",data)
+                this.author = data.user
+        }
+    }
+}
+</script>>
