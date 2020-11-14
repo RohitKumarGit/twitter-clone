@@ -9,7 +9,7 @@ app.use(morgan())
 
 const TweetRouter = require('./server/routers/tweet')
 const UserRouter = require('./server/routers/user')
-mongoose.connect("mongodb+srv://user:xtXE0mmcC7GmhZrM@cluster0.begc9.mongodb.net/<dbname>?retryWrites=true&w=majority", {
+mongoose.connect("mongodb+srv://user:xtXE0mmcC7GmhZrM@cluster0.begc9.mongodb.net/twitterClone?retryWrites=true&w=majority", {
   useNewUrlParser: "true",
 })
 const path = require('path');
