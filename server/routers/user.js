@@ -3,6 +3,7 @@ const User = require('../models/user');
 const Tweets = require('../models/tweet');
 const Users = require('../models/user');
 const Router = express.Router()
+const Relation = require('../models/tweetRelation')
 Router.post('/',async function(req,res,next){
     try {
         const user = await User.post(req,res)
@@ -11,6 +12,19 @@ Router.post('/',async function(req,res,next){
         next(error)
     }
     
+})
+Router.get('/all',async function(req,res,next){
+    try {
+        const users = await Users.find({
+            "name":{
+                $regex:req.query.search,
+                $options:'i'
+            }
+        },"name handle _id photo")
+        res.send({users})
+    } catch (error) {
+        next(error)
+    }
 })
 Router.get('/notifs',async function(req,res,next){
     try {
@@ -27,15 +41,22 @@ Router.get('/tweets',async function(req,res,next){
     try {
         const {user_id} = req.query
        
-        const tweets = await Tweets.find({
-            "user_ids":{
-                "$in":[user_id]
-            }
+        const tweets = await Relation.find({
+            $or:[
+                {
+                    author:user_id
+                },
+                {
+                    retweeted_by:user_id
+                }
+            ]
+        }).populate('author tweet reply_to retweeted_by').sort({
+            createdAt:-1
         })
         ///console.log(tweets)
        
         const user =await User.findById(user_id)
-        res.send({user,tweets})
+        res.send({tweets})
     } catch (error) {
         next(error)
     }
@@ -98,7 +119,7 @@ Router.post('/verify/uid',async function(req,res,next){
 })
 Router.get('/',async function(req,res,next){
     try {
-        console.log(req.query)
+        
         const user = await User.get(req.query.uid)
         res.send(user)
     } catch (error) {

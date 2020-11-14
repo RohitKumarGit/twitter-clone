@@ -56,11 +56,13 @@ $secondary:#fafafa;
     align-items: center;
    
     &-image{
-        height: 1.4rem;
-        width: 1.4rem;
+        height: 1.7rem;
+        width: 1.7rem;
         background-color: $primary;
         border-radius: 100%;
+        background-size: cover;
         margin-right: .3rem;
+        cursor: pointer;
     }
     &-image-large{
         height: 2.5rem;
@@ -69,6 +71,7 @@ $secondary:#fafafa;
         background-size: cover;
         border-radius: 100%;
         margin-right: .3rem;
+        cursor: pointer;
     }
     &-btn{
         float: right;

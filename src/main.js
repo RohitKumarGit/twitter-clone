@@ -6,6 +6,10 @@ import Buefy from 'buefy'
 import 'buefy/dist/buefy.css'
 import './assets/scss/style.scss'
 Vue.use(Buefy)
+import vSelect from 'vue-select'
+
+Vue.component('v-select', vSelect)
+import 'vue-select/dist/vue-select.css';
 import firebase from 'firebase'
 var firebaseConfig = {
   apiKey: "AIzaSyCvILHG7Co-4XI3ZYX8RTbevSZ8xRTGC4E",

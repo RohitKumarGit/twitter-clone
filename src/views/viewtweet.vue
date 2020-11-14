@@ -1,7 +1,11 @@
 <template>
     <div class="border">
-        {{user}}
-            <tweet></tweet>
+        
+            <tweet v-if="data" :tweet="data.tweet" :recent="false" :view="false"></tweet>
+            <div style="margin-top:10px" :key="tweet._id" v-for="tweet in data.replies">
+                <tweet :tweet="tweet" :view="false" :recent="false" v-if="data"></tweet>
+            </div>
+
     </div>
 </template>
 
@@ -15,7 +19,7 @@ export default {
     },
     data(){
         return {
-
+            data:null
         }
     }
     ,
@@ -33,6 +37,7 @@ export default {
             }
         })
         console.log(data)
+        this.data = data
     }
 }
 </script>

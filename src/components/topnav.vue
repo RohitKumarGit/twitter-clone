@@ -58,11 +58,21 @@
             <div class="brand-item" >
                  <b-button  @click="logout" class="new-tweet border-p" type=" shadow-sm" rounded>Logout</b-button>
             </div>
+            <div class="brand-item cursor-p" v-if="$route.name !== 'profile'" >
+                 <router-link class="profile is-flex p-1 mt-3" tag="div" :to="'/view/profile?user_id=' + user._id">
+                 
+                 <div  class="follow-image-large" :style="'background-image:url('+ user.photo+')'"></div>
+                 <div class="handle">
+                 {{user.name}}  <span>@{{user.handle}}</span>
+                 </div>
+                 </router-link>
+            </div>
        </div>
     </div>
 </template>
 <script>
 import tweetform from '@/components/tweetform'
+
 //import tweet from '@/components/tweet'
 import axios from 'axios'
 import firebase from 'firebase'
@@ -72,11 +82,13 @@ export default {
         },
         data(){
                 return {
-                        tweet:false
+                        tweet:false,
+                        user:{}
                 }
         },
         beforeMount(){
                 const store = this.$store
+                const p = this;
                 firebase.auth().onAuthStateChanged(async function(user) {
                 if (user) {
                         console.log(user)
@@ -86,6 +98,7 @@ export default {
                                 }
                         })
                         console.log(data)
+                        p.user = data.user
                         store.commit("addUser",data)
     // User is signed in.
                 } else {

@@ -66,6 +66,8 @@ Router.post('/like',async function(req,res,next){
         // add notification
         if(tweet.success){
             const user = await Users.findById(req.body.author_id)
+            console.log(req.body.user_id.toString() ,user._id.toString())
+            console.log(req.body.user_id.toString() !== user._id.toString())
             if(req.body.user_id !== user._id){
                 user.notifications.push({
                     from:req.body.user_id,

@@ -14,7 +14,7 @@
       </h2>
     </div>
   </div>
-    <tweet class="border" :recent="true" v-for="tweet in tweets" :key="tweet._id" :tweet ="tweet"></tweet>
+    <tweet :view="true" class="border" :recent="true" v-for="tweet in tweets" :key="tweet._id" :tweet ="tweet"></tweet>
    
   </div>
 </template>

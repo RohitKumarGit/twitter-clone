@@ -49,7 +49,7 @@ Schema.statics.get = async function(uid){
 
             uid
         })
-         console.log(user)
+         
          return {user}
     } catch (error) {
         throw new Error(error)

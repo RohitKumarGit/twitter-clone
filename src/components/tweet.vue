@@ -1,7 +1,7 @@
 <template>
     
-    <div class="card" v-if="show">
-  
+    <div class="card" v-if="show" >
+
     <b-modal v-model="reply" has-modal-card  :destroy-on-hide="false" aria-role="dialog" aria-modal>
     <template #default="props">
 
@@ -9,17 +9,18 @@
             </template>
 
     </b-modal>
-    
+        <div v-if="view">
         <span class="retweet-label" v-if="tweet.retweeted_by">{{tweet.retweeted_by.name}} Retweeted  <b>{{tweet.author.name}}'s Tweet</b></span>
         <span class="retweet-label" v-if="author">{{tweet.author.name}} Replied to   <b>{{author.name}}'s Tweet</b></span>
+        </div>
         <div class="card-content">
        
            <div class="columns">
            
            <div class="column is-1">
-           <div class="follow-image-large" :style="'background-image:url('+ tweet.author.photo+')'"></div>
+           <router-link :to="'/view/profile?user_id=' + user._id" tag="div" class="follow-image-large" :style="'background-image:url('+ tweet.author.photo+')'"></router-link>
            </div>
-           <div class="column is-11">
+           <div class="column is-11" v-on:click="viewTweet(tweet.tweet._id)">
            <div class="handle">
            {{tweet.author.name}} <span>@{{tweet.author.handle}}</span>
            </div>
@@ -55,7 +56,7 @@ import axios from 'axios'
 import {mapState} from 'vuex'
 import tweetform from '@/components/tweetform'
 export default {
-    props:['tweet','recent'],
+    props:['tweet','recent','view'],
     data(){
         return {
             reply:false,
@@ -66,6 +67,13 @@ export default {
         tweetform
     },
     methods:{
+        async viewTweet(id){
+            try {
+                window.location = '/view/tweet?tweet_id=' + id
+            } catch (error) {
+                console.log(error)
+            }
+        },
         async like(id,author_id){
             const {data} = await axios.post('/tweet/like',{
                 tweet_id:id,
@@ -117,6 +125,7 @@ export default {
        
     },
     async created(){
+        console.log(this.tweet)
         if(this.tweet.reply_to){
                 const {data} = await axios.get('/user',{
                     params:{
@@ -126,6 +135,7 @@ export default {
                 console.log("real auhtor",data)
                 this.author = data.user
         }
+        
     }
 }
 </script>>

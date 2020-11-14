@@ -56,13 +56,15 @@ Schema.statics.get = async function(req,res){
         if(req.query.replies){
             replies = await Relation.find({
                 reply_to:req.query.tweet_id
-            }).populate('reply_to author tweet')
+            }).populate('reply_to author tweet').sort({'createdAt':-1})
         }
-        const tweet = await Tweets.findById(req.query.tweet_id)
+        const tweet = await Relation.findOne({
+            tweet:req.query.tweet_id
+        }).populate('author tweet')
        
         
         return {
-            data:tweet,
+           tweet:tweet,
             replies
         }
     } catch (error) {

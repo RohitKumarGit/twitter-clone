@@ -50,7 +50,7 @@ export default {
       }
     })
     console.log(data)
-    this.notifs = data.notifs.notifications
+    this.notifs = data.notifs.notifications.reverse()
      this.isLoading = false
     }
   },
